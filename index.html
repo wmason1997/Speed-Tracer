@@ -11,7 +11,7 @@
 <title>Tracer</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none;}
-body{background:#0a0a0f;display:flex;flex-direction:column;align-items:center;font-family:monospace;overflow:hidden;}
+body{background:#0a0a0f;display:flex;flex-direction:column;align-items:center;font-family:monospace;overflow:hidden;width:100%;}
 #hud{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:420px;padding:6px 12px 4px;color:#ccc;font-size:12px;background:#111;border-bottom:1px solid #222;}
 #hud .stat{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:32px;}
 #hud .val{font-size:15px;font-weight:bold;color:#fff;}
@@ -74,7 +74,7 @@ canvas#wc{touch-action:none;cursor:pointer;}
   </div>
 </div>
 <div id="wheel-area">
-  <canvas id="wc" width="180" height="180"></canvas>
+  <canvas id="wc" width="280" height="280"></canvas>
 </div>
 
 <script>
@@ -450,7 +450,7 @@ function drawGame(){
   }
 }
 function drawWheel(){
-  const W=180,cx=90,cy=90,R=82,dead=22;
+  const W=280,cx=140,cy=140,R=127,dead=34;
   wctx.clearRect(0,0,W,W);
   wctx.beginPath();wctx.arc(cx,cy,R,0,Math.PI*2);wctx.fillStyle='#16161e';wctx.fill();
   wctx.strokeStyle='#2a2a3a';wctx.lineWidth=1;wctx.stroke();
@@ -469,23 +469,23 @@ function drawWheel(){
   for(let i=0;i<8;i++){
     const a=(i*45-90)*Math.PI/180;
     wctx.fillStyle=wheelDir===i?'#fff':'#444';
-    wctx.font=`${wheelDir===i?'bold ':''} 10px monospace`;
+    wctx.font=`${wheelDir===i?'bold ':''} 15px monospace`;
     wctx.textAlign='center';wctx.textBaseline='middle';
-    wctx.fillText(labs[i],cx+63*Math.cos(a),cy+63*Math.sin(a));
+    wctx.fillText(labs[i],cx+98*Math.cos(a),cy+98*Math.sin(a));
   }
   wctx.beginPath();wctx.arc(cx,cy,dead,0,Math.PI*2);wctx.fillStyle='#0e0e16';wctx.fill();
   wctx.strokeStyle='#2a2a3a';wctx.lineWidth=1;wctx.stroke();
   if(wheelDir!==null&&wheelMag>0.1){
-    const a=(wheelDir*45-90)*Math.PI/180,d=dead+10+wheelMag*(R-dead-18);
-    wctx.beginPath();wctx.arc(cx+d*Math.cos(a),cy+d*Math.sin(a),7,0,Math.PI*2);wctx.fillStyle='#1D9E75';wctx.fill();
+    const a=(wheelDir*45-90)*Math.PI/180,d=dead+16+wheelMag*(R-dead-28);
+    wctx.beginPath();wctx.arc(cx+d*Math.cos(a),cy+d*Math.sin(a),11,0,Math.PI*2);wctx.fillStyle='#1D9E75';wctx.fill();
   }
 }
 function getInput(clientX,clientY){
   const rect=wc.getBoundingClientRect(),scale=wc.width/rect.width;
-  const dx=(clientX-rect.left)*scale-90,dy=(clientY-rect.top)*scale-90;
+  const dx=(clientX-rect.left)*scale-140,dy=(clientY-rect.top)*scale-140;
   const dist=Math.sqrt(dx*dx+dy*dy);
-  if(dist<14) return {dir:null,mag:0};
-  const mag=Math.min(dist/82,1);
+  if(dist<22) return {dir:null,mag:0};
+  const mag=Math.min(dist/127,1);
   const angle=((Math.atan2(dy,dx)*180/Math.PI+90)%360+360)%360;
   return {dir:Math.floor((angle+22.5)/45)%8,mag};
 }
