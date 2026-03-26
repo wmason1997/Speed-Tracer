@@ -86,9 +86,12 @@ const wctx=wc.getContext('2d');
 const COLS=40,ROWS=52;
 let CW,CH,CELL;
 function resize(){
-  const w=Math.min(document.getElementById('game-area').clientWidth,420);
+  const w=Math.min(document.getElementById('hud').clientWidth,420);
   CELL=Math.floor(w/COLS); CW=CELL*COLS; CH=CELL*ROWS;
   gc.width=CW; gc.height=CH; gc.style.width=CW+'px'; gc.style.height=CH+'px';
+  ['game-area','powerup-bars','wheel-area'].forEach(id=>{
+    document.getElementById(id).style.width=CW+'px';
+  });
 }
 resize();
 
