@@ -20,8 +20,8 @@ body{background:#0a0a0f;display:flex;flex-direction:column;align-items:center;fo
 #fill-bar{height:100%;background:#1D9E75;border-radius:4px;transition:width 0.15s;}
 #fill-target-marker{position:absolute;top:-2px;width:2px;height:12px;background:#ffffff66;border-radius:1px;pointer-events:none;}
 #powerup-bars{width:100%;max-width:420px;display:flex;gap:4px;padding:4px 12px;background:#111;border-bottom:1px solid #1a1a1a;min-height:20px;}
-.pu-bar-wrap{flex:1;display:none;flex-direction:column;gap:2px;}
-.pu-bar-wrap.active{display:flex;}
+.pu-bar-wrap{flex:1;display:flex;flex-direction:column;gap:2px;opacity:0;}
+.pu-bar-wrap.active{opacity:1;}
 .pu-label{font-size:9px;text-transform:uppercase;letter-spacing:0.5px;}
 .pu-track{height:4px;background:#222;border-radius:2px;overflow:hidden;}
 .pu-fill{height:100%;border-radius:2px;transition:width 0.1s linear;}
@@ -36,6 +36,10 @@ canvas#wc{touch-action:none;cursor:pointer;}
 #msg button{background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:8px 22px;font-size:13px;cursor:pointer;font-family:monospace;}
 #level-flash{position:absolute;top:28%;left:50%;transform:translate(-50%,-50%);color:#F9CB42;font-size:22px;font-weight:bold;pointer-events:none;opacity:0;transition:opacity 0.25s;z-index:9;white-space:nowrap;}
 #collect-flash{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);font-size:32px;pointer-events:none;opacity:0;transition:opacity 0.15s;z-index:9;}
+#pause-btn{background:none;border:1px solid #333;border-radius:5px;color:#888;font-size:13px;padding:3px 8px;cursor:pointer;font-family:monospace;line-height:1;}
+#pause-btn:active{background:#1a1a1a;}
+#pause-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.65);display:none;align-items:center;justify-content:center;z-index:8;}
+#pause-overlay span{color:#fff;font-size:26px;font-weight:bold;letter-spacing:4px;font-family:monospace;}
 </style>
 </head>
 <body>
@@ -46,7 +50,9 @@ canvas#wc{touch-action:none;cursor:pointer;}
     <div id="fill-target-marker"></div>
   </div>
   <div class="stat"><span class="val" id="pct-val">0%</span><span class="lbl">filled</span></div>
+  <div class="stat"><span class="val" id="target-val">75%</span><span class="lbl">goal</span></div>
   <div class="stat"><span class="val" id="lvl-val">1</span><span class="lbl">level</span></div>
+  <button id="pause-btn" onclick="togglePause()">⏸</button>
 </div>
 <div id="powerup-bars">
   <div class="pu-bar-wrap" id="pu-speed-wrap">
@@ -66,6 +72,7 @@ canvas#wc{touch-action:none;cursor:pointer;}
   <canvas id="gc"></canvas>
   <div id="level-flash"></div>
   <div id="collect-flash"></div>
+  <div id="pause-overlay"><span>PAUSED</span></div>
   <div id="msg">
     <h2 id="msg-title">Tracer</h2>
     <div class="sub" id="msg-sub"></div>
@@ -118,6 +125,7 @@ let grid,ship,preds,lives,gameState,animFrame,lastTime,trailSet,flashTimer,curre
 let puActive={speed:0,freeze:0,shield:0};
 let fieldPickup=null, puSpawnTimer=0;
 let collectFlashTimer=0;
+let bonusLifeGranted=false;
 
 const SHIP_DIRS=[[0,-1],[1,-1],[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1]];
 
@@ -155,7 +163,10 @@ function startLevel(){
   const lvl=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
   gameState='playing'; flashTimer=0; collectFlashTimer=0;
   document.getElementById('collect-flash').style.opacity=0;
+  document.getElementById('pause-overlay').style.display='none';
+  document.getElementById('pause-btn').textContent='⏸';
   puActive={speed:0,freeze:0,shield:0};
+  bonusLifeGranted=false;
   fieldPickup=null; puSpawnTimer=PU_SPAWN_INTERVAL*0.5;
   initGrid();
   ship={c:Math.floor(COLS/2),r:ROWS-1,subC:Math.floor(COLS/2),subR:ROWS-1};
@@ -166,10 +177,28 @@ function startLevel(){
   lastTime=null;
   animFrame=requestAnimationFrame(loop);
 }
+function togglePause(){
+  if(gameState==='playing'){
+    gameState='paused';
+    document.getElementById('pause-btn').textContent='▶';
+    document.getElementById('pause-overlay').style.display='flex';
+  } else if(gameState==='paused'){
+    gameState='playing';
+    lastTime=null;
+    document.getElementById('pause-btn').textContent='⏸';
+    document.getElementById('pause-overlay').style.display='none';
+  }
+}
 function newGame(){
   lives=3; currentLevel=1;
   updateHUD();
-  showMsg('Tracer','Level 1 · 1 predator','Claim 75% of the field.<br>Enclose or collect power-ups to activate them!','Play',false);
+  showMsg('Tracer','How to Play',
+    'Draw a path across the open field and return to safe ground (border or filled area) to claim it.<br><br>' +
+    '⚠️ Predators kill your trail — touching it yourself is fatal too.<br><br>' +
+    '⚡ Speed &nbsp;❄️ Freeze &nbsp;🛡️ Shield<br>Collect power-ups on the field or enclose them to activate.<br><br>' +
+    '❤️ Clear every 5th level or fill 10% above the target to earn a bonus life.<br><br>' +
+    'Level 1 · Claim 75% of the field.',
+    'Play',false);
 }
 function updateHUD(){
   document.getElementById('lives-val').textContent=lives;
@@ -179,6 +208,7 @@ function updateHUD(){
   document.getElementById('fill-bar').style.width=p+'%';
   const lvl=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
   document.getElementById('fill-target-marker').style.left=lvl.target+'%';
+  document.getElementById('target-val').textContent=lvl.target+'%';
   for(const t of PU_TYPES){
     const wrap=document.getElementById('pu-'+t+'-wrap');
     const fill=document.getElementById('pu-'+t+'-fill');
@@ -314,6 +344,15 @@ function doFloodFill(){
       }
     }
   }
+  // Bonus life if fill jumps 10% above target
+  if(!bonusLifeGranted){
+    const lvlB=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
+    if(calcFillPct()>=Math.min(100,lvlB.target+10)){
+      bonusLifeGranted=true; lives++;
+      const cf=document.getElementById('collect-flash');
+      cf.textContent='❤️ +1 Life!'; cf.style.opacity=1; collectFlashTimer=1.5;
+    }
+  }
   updateHUD();
 }
 function updatePredator(p,dt){
@@ -370,11 +409,13 @@ function checkWin(){
       flash.style.opacity=1;
       setTimeout(()=>{
         flash.style.opacity=0;
+        const lvlBonus=currentLevel%5===0;
+        if(lvlBonus){lives++;updateHUD();}
         currentLevel++;
         const next=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
         showMsg('Level '+currentLevel,
           next.predators+' predator'+(next.predators>1?'s':'')+' · faster',
-          'Claim '+next.target+'% of the field.','Go',false);
+          'Claim '+next.target+'% of the field.'+(lvlBonus?'<br>🎉 +1 Bonus Life!':''),'Go',false);
       },1800);
     }
   }
@@ -386,7 +427,6 @@ function showMsg(title,sub,body,btn,resetGame){
   document.getElementById('msg-body').innerHTML=body;
   document.getElementById('msg-btn').textContent=btn;
   document.getElementById('msg').style.display='block';
-  updateHUD();
 }
 
 function drawGame(){
@@ -421,9 +461,11 @@ function drawGame(){
   const showShip=flashTimer<=0||Math.floor(flashTimer*8)%2===0;
   if(showShip){
     const sx=ship.subC*CELL+CELL/2,sy=ship.subR*CELL+CELL/2,sr=CELL*0.42;
+    const shipSafe=isSafe(ship.c,ship.r);
+    const shipColor=shipSafe?'#F9CB42':'#E05252';
     ctx.beginPath();ctx.arc(sx,sy,sr+4,0,Math.PI*2);
-    ctx.fillStyle=puActive.speed>0?'rgba(249,203,71,0.4)':puActive.shield>0?'rgba(93,202,165,0.4)':'rgba(249,203,71,0.2)';ctx.fill();
-    ctx.beginPath();ctx.arc(sx,sy,sr,0,Math.PI*2);ctx.fillStyle='#F9CB42';ctx.fill();
+    ctx.fillStyle=puActive.speed>0?'rgba(249,203,71,0.4)':puActive.shield>0?'rgba(93,202,165,0.4)':shipSafe?'rgba(249,203,71,0.2)':'rgba(224,82,82,0.2)';ctx.fill();
+    ctx.beginPath();ctx.arc(sx,sy,sr,0,Math.PI*2);ctx.fillStyle=shipColor;ctx.fill();
     if(puActive.shield>0){ctx.beginPath();ctx.arc(sx,sy,sr+6,0,Math.PI*2);ctx.strokeStyle='#5DCAA5';ctx.lineWidth=1.5;ctx.stroke();}
     if(puActive.speed>0&&wheelDir!==null){
       const [dc,dr]=SHIP_DIRS[wheelDir],len=Math.sqrt(dc*dc+dr*dr);
