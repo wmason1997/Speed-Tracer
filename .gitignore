@@ -1,2 +1,31 @@
+# Node
 node_modules/
-android/app/release
+npm-debug.log*
+
+# Android build outputs
+android/app/release/
+android/app/build/
+android/.gradle/
+android/local.properties
+
+# iOS build outputs
+ios/App/build/
+ios/App/Pods/
+ios/.xcode.env.local
+
+# Capacitor
+.capacitor/
+
+# Keystore — never commit this
+*.jks
+*.keystore
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# Environment / secrets
+.env
+.env.local
