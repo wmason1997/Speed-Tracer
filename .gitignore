@@ -23,7 +23,8 @@ ios/.xcode.env.local
 # macOS
 .DS_Store
 
-# VS Code
+# IDE
+.idea/
 .vscode/
 
 # Environment / secrets
