@@ -29,20 +29,67 @@ body{background:#0a0a0f;display:flex;flex-direction:column;align-items:center;fo
 canvas#gc{display:block;width:100%;touch-action:none;}
 #wheel-area{width:100%;max-width:420px;display:flex;justify-content:center;padding:8px 0 10px;background:#0a0a0f;}
 canvas#wc{touch-action:none;cursor:pointer;}
-#msg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);border:1px solid #333;border-radius:12px;padding:20px 28px;text-align:center;color:#fff;z-index:10;min-width:220px;}
+#msg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);border:1px solid #333;border-radius:12px;padding:20px 28px;text-align:center;color:#fff;z-index:10;min-width:220px;display:none;}
 #msg h2{font-size:20px;margin-bottom:4px;}
 #msg .sub{font-size:11px;color:#666;margin-bottom:6px;}
 #msg p{font-size:12px;color:#aaa;margin-bottom:14px;line-height:1.6;}
 #msg button{background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:8px 22px;font-size:13px;cursor:pointer;font-family:monospace;}
 #level-flash{position:absolute;top:28%;left:50%;transform:translate(-50%,-50%);color:#F9CB42;font-size:22px;font-weight:bold;pointer-events:none;opacity:0;transition:opacity 0.25s;z-index:9;white-space:nowrap;}
-#collect-flash{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);font-size:32px;pointer-events:none;opacity:0;transition:opacity 0.15s;z-index:9;}
+#collect-flash{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);font-size:22px;pointer-events:none;opacity:0;transition:opacity 0.15s;z-index:9;white-space:nowrap;text-align:center;}
 #pause-btn{background:none;border:1px solid #333;border-radius:5px;color:#888;font-size:13px;padding:3px 8px;cursor:pointer;font-family:monospace;line-height:1;}
 #pause-btn:active{background:#1a1a1a;}
 #pause-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.65);display:none;align-items:center;justify-content:center;z-index:8;}
 #pause-overlay span{color:#fff;font-size:26px;font-weight:bold;letter-spacing:4px;font-family:monospace;}
+/* ── Main Menu ── */
+#main-menu{position:fixed;top:0;left:0;width:100%;height:100%;background:#0a0a0f;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;}
+#main-menu .game-title{color:#F9CB42;font-size:52px;font-weight:bold;letter-spacing:8px;font-family:monospace;margin-bottom:6px;}
+#main-menu .game-sub{color:#333;font-size:11px;letter-spacing:4px;text-transform:uppercase;margin-bottom:52px;}
+.menu-btn{background:#1D9E75;color:#fff;border:none;border-radius:10px;padding:14px 0;font-size:16px;cursor:pointer;font-family:monospace;letter-spacing:2px;margin-bottom:14px;width:200px;position:relative;text-align:center;}
+.menu-btn.secondary{background:#16374e;}
+.menu-btn:active{filter:brightness(1.15);}
+.pro-badge{background:#F9CB42;color:#0a0a0f;font-size:9px;font-weight:bold;padding:2px 5px;border-radius:3px;letter-spacing:1px;position:absolute;top:6px;right:8px;}
+#premium-note{color:#444;font-size:10px;margin-top:2px;letter-spacing:1px;}
+#restore-link{color:#2a2a2a;font-size:10px;margin-top:36px;cursor:pointer;letter-spacing:1px;border-bottom:1px solid #222;padding-bottom:1px;}
+#restore-link:active{color:#555;}
+/* ── Premium gate ── */
+#premium-gate{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#0d0d12;border:1px solid #2a2a2a;border-radius:14px;padding:28px 24px;text-align:center;color:#fff;z-index:20;width:270px;display:none;}
+#premium-gate h2{font-size:17px;margin-bottom:10px;color:#F9CB42;line-height:1.4;}
+#premium-gate p{font-size:12px;color:#888;margin-bottom:22px;line-height:1.7;}
+.unlock-btn{background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:11px 0;font-size:14px;cursor:pointer;font-family:monospace;width:100%;margin-bottom:10px;display:block;}
+.unlock-btn:active{filter:brightness(1.15);}
+.later-btn{background:none;color:#444;border:1px solid #2a2a2a;border-radius:8px;padding:8px 0;font-size:12px;cursor:pointer;font-family:monospace;width:100%;display:block;}
+.later-btn:active{color:#777;}
+/* ── Timed HUD ── */
+#timer-val{font-size:15px;font-weight:bold;color:#fff;}
+#timer-val.pulse{animation:timerPulse 0.5s ease-in-out infinite;}
+@keyframes timerPulse{0%,100%{color:#E24B4A;}50%{color:#ff8080;}}
+#combo-val{font-size:15px;font-weight:bold;color:#F9CB42;}
+/* ── Timed results ── */
+#timed-results{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#0d0d12;border:1px solid #2a2a2a;border-radius:14px;padding:28px 24px;text-align:center;color:#fff;z-index:20;width:260px;display:none;}
+#timed-results h2{font-size:20px;margin-bottom:16px;color:#F9CB42;}
+.tr-stat{font-size:13px;color:#666;margin:7px 0;}
+.tr-stat span{color:#fff;font-weight:bold;}
+#tr-best{font-size:11px;color:#1D9E75;margin:4px 0 20px;min-height:16px;}
+.tr-replay{background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:9px 0;font-size:13px;cursor:pointer;font-family:monospace;width:100%;margin-bottom:9px;display:block;}
+.tr-menu{background:none;color:#555;border:1px solid #2a2a2a;border-radius:8px;padding:8px 0;font-size:12px;cursor:pointer;font-family:monospace;width:100%;display:block;}
 </style>
 </head>
 <body>
+
+<!-- ── Main Menu ── -->
+<div id="main-menu">
+  <div class="game-title">TRACER</div>
+  <div class="game-sub">Territory · Capture</div>
+  <button class="menu-btn" onclick="startClassicMode()">Classic</button>
+  <button class="menu-btn secondary" id="timed-menu-btn" onclick="startTimedModeOrGate()">
+    Timed
+    <span class="pro-badge" id="pro-badge" style="display:none">PRO</span>
+  </button>
+  <div id="premium-note">Premium · Timed Mode</div>
+  <div id="restore-link" onclick="restorePurchase()">restore purchase</div>
+</div>
+
+<!-- ── HUD ── -->
 <div id="hud">
   <div class="stat"><span class="val" id="lives-val">3</span><span class="lbl">lives</span></div>
   <div id="fill-bar-wrap">
@@ -50,8 +97,10 @@ canvas#wc{touch-action:none;cursor:pointer;}
     <div id="fill-target-marker"></div>
   </div>
   <div class="stat"><span class="val" id="pct-val">0%</span><span class="lbl">filled</span></div>
-  <div class="stat"><span class="val" id="target-val">75%</span><span class="lbl">goal</span></div>
-  <div class="stat"><span class="val" id="lvl-val">1</span><span class="lbl">level</span></div>
+  <div class="stat" id="stat-goal"><span class="val" id="target-val">75%</span><span class="lbl">goal</span></div>
+  <div class="stat" id="stat-level"><span class="val" id="lvl-val">1</span><span class="lbl">level</span></div>
+  <div class="stat" id="stat-timer" style="display:none"><span class="val" id="timer-val">1:30</span><span class="lbl">time</span></div>
+  <div class="stat" id="stat-combo" style="display:none"><span class="val" id="combo-val">1x</span><span class="lbl">combo</span></div>
   <button id="pause-btn" onclick="togglePause()">⏸</button>
 </div>
 <div id="powerup-bars">
@@ -73,11 +122,28 @@ canvas#wc{touch-action:none;cursor:pointer;}
   <div id="level-flash"></div>
   <div id="collect-flash"></div>
   <div id="pause-overlay"><span>PAUSED</span></div>
+  <!-- level / game-over message card -->
   <div id="msg">
-    <h2 id="msg-title">Tracer</h2>
+    <h2 id="msg-title"></h2>
     <div class="sub" id="msg-sub"></div>
-    <p id="msg-body">Claim the target % of the field.<br>Enclose or collect power-ups to activate them!</p>
-    <button id="msg-btn" onclick="startLevel()">Play</button>
+    <p id="msg-body"></p>
+    <button id="msg-btn" onclick="handleMsgBtn()">Play</button>
+  </div>
+  <!-- Premium gate card -->
+  <div id="premium-gate">
+    <h2>You've mastered<br>the basics</h2>
+    <p>Unlock levels 4–6 and Timed Mode for $1.99</p>
+    <button class="unlock-btn" onclick="triggerPurchase()">Unlock — $1.99</button>
+    <button class="later-btn" onclick="closePremiumGate()">Maybe Later</button>
+  </div>
+  <!-- Timed results card -->
+  <div id="timed-results">
+    <h2>Time's Up!</h2>
+    <div class="tr-stat">Filled: <span id="tr-pct">0%</span></div>
+    <div class="tr-stat">Score: <span id="tr-score">0</span></div>
+    <div id="tr-best"></div>
+    <button class="tr-replay" onclick="startTimedLevel()">Replay</button>
+    <button class="tr-menu" onclick="showMainMenu()">Main Menu</button>
   </div>
 </div>
 <div id="wheel-area">
@@ -104,13 +170,18 @@ resize();
 
 const EMPTY=0,FILLED=1,TRAIL=2,BORDER=3;
 const LEVELS=[
-  {predators:1,speed:5.5,target:75},
-  {predators:2,speed:6.5,target:78},
-  {predators:2,speed:7.5,target:80},
-  {predators:3,speed:8.0,target:83},
-  {predators:3,speed:9.0,target:85},
-  {predators:4,speed:9.5,target:88},
+  {predators:1,speed:5.5,target:75},   // Level 1 - FREE
+  {predators:2,speed:6.5,target:78},   // Level 2 - FREE
+  {predators:2,speed:7.5,target:80},   // Level 3 - FREE
+  {predators:3,speed:8.0,target:83},   // Level 4 - PREMIUM
+  {predators:3,speed:9.0,target:85},   // Level 5 - PREMIUM
+  {predators:4,speed:9.5,target:88},   // Level 6 - PREMIUM
+  {predators:4,speed:10.5,target:90},  // Level 7 - PREMIUM
+  {predators:5,speed:11.0,target:92},  // Level 8 - PREMIUM
+  {predators:5,speed:12.0,target:95},  // Level 9 - PREMIUM (Master)
 ];
+const FREE_LEVELS=3;
+
 const PRED_COLORS=['#E24B4A','#D85A30','#D4537E','#7F77DD'];
 const PRED_GLOW=['rgba(226,75,74,0.25)','rgba(216,90,48,0.25)','rgba(212,83,126,0.25)','rgba(127,119,221,0.25)'];
 const PU_DEFS={
@@ -119,16 +190,166 @@ const PU_DEFS={
   shield:{dur:3,color:'#5DCAA5',glowColor:'rgba(93,202,165,0.4)',emoji:'🛡️'},
 };
 const PU_TYPES=Object.keys(PU_DEFS);
-const PU_SPAWN_INTERVAL=6, PU_LIFETIME=12;
+const PU_SPAWN_CLASSIC=6, PU_SPAWN_TIMED=4, PU_LIFETIME=12;
 
+// ── Persistence ──
+let isPremium=localStorage.getItem('isPremium')==='true';
+let highestLevel=parseInt(localStorage.getItem('highestLevel')||'1',10);
+let timedHighScore=parseInt(localStorage.getItem('timedHighScore')||'0',10);
+
+function saveProgress(){
+  localStorage.setItem('isPremium',String(isPremium));
+  localStorage.setItem('highestLevel',String(highestLevel));
+  localStorage.setItem('timedHighScore',String(timedHighScore));
+}
+
+// ── IAP stubs ──
+function triggerPurchase(){
+  console.log('IAP trigger: com.williammason.tracer.premium');
+  // TODO: Wire up @capacitor-community/in-app-purchases here.
+  // Example integration:
+  //   import { InAppPurchase2 } from '@capacitor-community/in-app-purchases';
+  //   InAppPurchase2.purchase({ productId: 'com.williammason.tracer.premium' })
+  //     .then(() => grantPremium())
+  //     .catch(err => console.error('Purchase failed', err));
+  // On success: call grantPremium()
+}
+
+function grantPremium(){
+  isPremium=true;
+  saveProgress();
+  document.getElementById('premium-gate').style.display='none';
+  refreshMenuState();
+  showMainMenu();
+}
+
+function restorePurchase(){
+  console.log('IAP restore: com.williammason.tracer.premium');
+  // TODO: Wire up @capacitor-community/in-app-purchases restore here.
+  // Example integration:
+  //   InAppPurchase2.restorePurchases()
+  //     .then(purchases => {
+  //       const unlocked = purchases.find(p => p.productId === 'com.williammason.tracer.premium');
+  //       if (unlocked) grantPremium();
+  //     })
+  //     .catch(err => console.error('Restore failed', err));
+}
+
+// ── Game state ──
+let gameMode='classic'; // 'classic' | 'timed'
+let msgAction='startLevel'; // what the msg-btn does
 let grid,ship,preds,lives,gameState,animFrame,lastTime,trailSet,flashTimer,currentLevel;
 let puActive={speed:0,freeze:0,shield:0};
-let fieldPickup=null, puSpawnTimer=0;
+let fieldPickup=null,puSpawnTimer=0;
 let collectFlashTimer=0;
 let bonusLifeGranted=false;
+// Timed mode
+let timedTimeLeft=90;
+let timedScore=0;
+let timedCombo=1;
+let timedConsecutiveFills=0;
 
 const SHIP_DIRS=[[0,-1],[1,-1],[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1]];
 
+// ── Menu helpers ──
+function refreshMenuState(){
+  const badge=document.getElementById('pro-badge');
+  const note=document.getElementById('premium-note');
+  if(isPremium){badge.style.display='inline';note.style.display='none';}
+  else{badge.style.display='none';note.style.display='block';}
+}
+
+function showMainMenu(){
+  document.getElementById('main-menu').style.display='flex';
+  document.getElementById('msg').style.display='none';
+  document.getElementById('premium-gate').style.display='none';
+  document.getElementById('timed-results').style.display='none';
+  refreshMenuState();
+}
+
+function startClassicMode(){
+  gameMode='classic';
+  document.getElementById('main-menu').style.display='none';
+  // HUD: show goal + level, hide timer + combo
+  document.getElementById('stat-goal').style.display='flex';
+  document.getElementById('stat-level').style.display='flex';
+  document.getElementById('stat-timer').style.display='none';
+  document.getElementById('stat-combo').style.display='none';
+  // Resume from highest level reached (capped to accessible levels)
+  const maxAccessible=isPremium?LEVELS.length:FREE_LEVELS;
+  currentLevel=Math.max(1,Math.min(highestLevel,maxAccessible));
+  lives=3;
+  updateHUD();
+  const lvl=LEVELS[currentLevel-1];
+  const isResume=currentLevel>1;
+  showMsg(
+    'Level '+currentLevel,
+    lvl.predators+' predator'+(lvl.predators>1?'s':'')+' · '+(isResume?'faster':'medium speed'),
+    'Claim '+lvl.target+'% of the field.<br><br>'+
+    'Draw a path and return to safe ground to claim it.<br><br>'+
+    '⚡ Speed &nbsp;❄️ Freeze &nbsp;🛡️ Shield<br>Collect or enclose power-ups to activate them.',
+    isResume?'Resume':'Play',
+    'startLevel'
+  );
+}
+
+function startTimedModeOrGate(){
+  if(!isPremium){
+    document.getElementById('main-menu').style.display='none';
+    document.getElementById('premium-gate').style.display='block';
+    return;
+  }
+  startTimedSetup();
+}
+
+function startTimedSetup(){
+  gameMode='timed';
+  document.getElementById('main-menu').style.display='none';
+  document.getElementById('timed-results').style.display='none';
+  // HUD: hide goal + level, show timer + combo
+  document.getElementById('stat-goal').style.display='none';
+  document.getElementById('stat-level').style.display='none';
+  document.getElementById('stat-timer').style.display='flex';
+  document.getElementById('stat-combo').style.display='flex';
+  // Reset timed state
+  timedTimeLeft=90; timedScore=0; timedCombo=1; timedConsecutiveFills=0;
+  lives=99;
+  currentLevel=0;
+  updateHUD();
+  showMsg(
+    'Timed Mode','90 seconds',
+    'Claim as much territory as possible before time runs out!<br><br>'+
+    'Each enclosure scores: cells × combo multiplier<br>'+
+    'Consecutive fills build your combo up to 4×<br>'+
+    'Dying resets your combo to 1×',
+    'Start',
+    'startLevel'
+  );
+}
+
+// Called by timed results Replay button — skips the intro screen
+function startTimedLevel(){
+  gameMode='timed';
+  document.getElementById('stat-goal').style.display='none';
+  document.getElementById('stat-level').style.display='none';
+  document.getElementById('stat-timer').style.display='flex';
+  document.getElementById('stat-combo').style.display='flex';
+  timedTimeLeft=90; timedScore=0; timedCombo=1; timedConsecutiveFills=0;
+  lives=99; currentLevel=0;
+  startLevel();
+}
+
+function closePremiumGate(){
+  document.getElementById('premium-gate').style.display='none';
+  showMainMenu();
+}
+
+function handleMsgBtn(){
+  if(msgAction==='startLevel') startLevel();
+  else if(msgAction==='showMainMenu') showMainMenu();
+}
+
+// ── Grid / predator setup ──
 function initGrid(){
   grid=[];
   for(let r=0;r<ROWS;r++){
@@ -151,32 +372,43 @@ function makePredators(count,speed){
     {x:COLS*0.75,y:ROWS*0.30,angle:214},
     {x:COLS*0.50,y:ROWS*0.60,angle:127},
     {x:COLS*0.20,y:ROWS*0.65,angle:305},
+    {x:COLS*0.65,y:ROWS*0.45,angle:178},
   ];
   return configs.slice(0,count).map((cfg,i)=>{
     const rad=cfg.angle*Math.PI/180;
-    return {x:cfg.x,y:cfg.y,vx:Math.cos(rad),vy:Math.sin(rad),speed,color:PRED_COLORS[i],glow:PRED_GLOW[i]};
+    return {x:cfg.x,y:cfg.y,vx:Math.cos(rad),vy:Math.sin(rad),speed,
+            color:PRED_COLORS[i%PRED_COLORS.length],glow:PRED_GLOW[i%PRED_GLOW.length]};
   });
 }
 
+// ── Core game start ──
 function startLevel(){
   document.getElementById('msg').style.display='none';
-  const lvl=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
+  document.getElementById('timed-results').style.display='none';
+  let lvlCfg;
+  if(gameMode==='timed'){
+    lvlCfg={predators:1,speed:7.0};
+  } else {
+    lvlCfg=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
+  }
   gameState='playing'; flashTimer=0; collectFlashTimer=0;
   document.getElementById('collect-flash').style.opacity=0;
   document.getElementById('pause-overlay').style.display='none';
   document.getElementById('pause-btn').textContent='⏸';
   puActive={speed:0,freeze:0,shield:0};
   bonusLifeGranted=false;
-  fieldPickup=null; puSpawnTimer=PU_SPAWN_INTERVAL*0.5;
+  fieldPickup=null;
+  puSpawnTimer=(gameMode==='timed'?PU_SPAWN_TIMED:PU_SPAWN_CLASSIC)*0.5;
   initGrid();
   ship={c:Math.floor(COLS/2),r:ROWS-1,subC:Math.floor(COLS/2),subR:ROWS-1};
-  preds=makePredators(lvl.predators,lvl.speed);
+  preds=makePredators(lvlCfg.predators,lvlCfg.speed);
   trailSet=new Set();
   updateHUD();
   if(animFrame) cancelAnimationFrame(animFrame);
   lastTime=null;
   animFrame=requestAnimationFrame(loop);
 }
+
 function togglePause(){
   if(gameState==='playing'){
     gameState='paused';
@@ -189,26 +421,34 @@ function togglePause(){
     document.getElementById('pause-overlay').style.display='none';
   }
 }
-function newGame(){
-  lives=3; currentLevel=1;
-  updateHUD();
-  showMsg('Tracer','How to Play',
-    'Draw a path across the open field and return to safe ground (border or filled area) to claim it.<br><br>' +
-    '⚠️ Predators kill your trail — touching it yourself is fatal too.<br><br>' +
-    '⚡ Speed &nbsp;❄️ Freeze &nbsp;🛡️ Shield<br>Collect power-ups on the field or enclose them to activate.<br><br>' +
-    '❤️ Clear every 5th level or fill 10% above the target to earn a bonus life.<br><br>' +
-    'Level 1 · Claim 75% of the field.',
-    'Play',false);
-}
+
+// ── HUD ──
 function updateHUD(){
-  document.getElementById('lives-val').textContent=lives;
-  document.getElementById('lvl-val').textContent=currentLevel;
   const p=calcFillPct();
   document.getElementById('pct-val').textContent=p+'%';
   document.getElementById('fill-bar').style.width=p+'%';
-  const lvl=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
-  document.getElementById('fill-target-marker').style.left=lvl.target+'%';
-  document.getElementById('target-val').textContent=lvl.target+'%';
+  if(gameMode==='classic'){
+    document.getElementById('lives-val').textContent=lives;
+    document.getElementById('lvl-val').textContent=currentLevel;
+    const lvl=LEVELS[Math.min(Math.max(currentLevel-1,0),LEVELS.length-1)];
+    document.getElementById('fill-target-marker').style.left=lvl.target+'%';
+    document.getElementById('target-val').textContent=lvl.target+'%';
+  } else {
+    document.getElementById('lives-val').textContent='∞';
+    document.getElementById('fill-target-marker').style.left='0%';
+    const secs=Math.max(0,Math.ceil(timedTimeLeft));
+    const mm=Math.floor(secs/60);
+    const ss=String(secs%60).padStart(2,'0');
+    const tv=document.getElementById('timer-val');
+    tv.textContent=mm+':'+ss;
+    if(timedTimeLeft>0&&timedTimeLeft<=10) tv.classList.add('pulse');
+    else tv.classList.remove('pulse');
+    // Format combo: show as integer when .0, one decimal otherwise
+    const comboStr=Number.isInteger(timedCombo)||timedCombo%1===0
+      ? timedCombo+'x'
+      : timedCombo.toFixed(1)+'x';
+    document.getElementById('combo-val').textContent=comboStr;
+  }
   for(const t of PU_TYPES){
     const wrap=document.getElementById('pu-'+t+'-wrap');
     const fill=document.getElementById('pu-'+t+'-fill');
@@ -220,15 +460,22 @@ function updateHUD(){
     }
   }
 }
+
 function calcFillPct(){
   let f=0,t=(COLS-2)*(ROWS-2);
   for(let r=1;r<ROWS-1;r++) for(let c=1;c<COLS-1;c++) if(grid[r][c]===FILLED) f++;
   return Math.round(f/t*100);
 }
+function countFilled(){
+  let f=0;
+  for(let r=1;r<ROWS-1;r++) for(let c=1;c<COLS-1;c++) if(grid[r][c]===FILLED) f++;
+  return f;
+}
+
 function grantPickup(type){
   puActive[type]=PU_DEFS[type].dur;
   fieldPickup=null;
-  puSpawnTimer=PU_SPAWN_INTERVAL;
+  puSpawnTimer=gameMode==='timed'?PU_SPAWN_TIMED:PU_SPAWN_CLASSIC;
   const el=document.getElementById('collect-flash');
   el.textContent=PU_DEFS[type].emoji;
   el.style.opacity=1;
@@ -237,6 +484,7 @@ function grantPickup(type){
 
 let wheelDir=null,wheelMag=0;
 
+// ── Game loop ──
 function loop(ts){
   if(!lastTime) lastTime=ts;
   const dt=Math.min((ts-lastTime)/1000,0.05);
@@ -249,14 +497,19 @@ function loop(ts){
       fieldPickup.pulse=(fieldPickup.pulse||0)+dt;
       if(fieldPickup.life<=0) fieldPickup=null;
     }
-    if(!fieldPickup){puSpawnTimer-=dt;if(puSpawnTimer<=0){spawnPickup();puSpawnTimer=PU_SPAWN_INTERVAL;}}
+    const spawnInt=gameMode==='timed'?PU_SPAWN_TIMED:PU_SPAWN_CLASSIC;
+    if(!fieldPickup){puSpawnTimer-=dt;if(puSpawnTimer<=0){spawnPickup();puSpawnTimer=spawnInt;}}
     if(collectFlashTimer>0){
       collectFlashTimer-=dt;
       document.getElementById('collect-flash').style.opacity=Math.max(0,collectFlashTimer/0.9);
     }
+    if(gameMode==='timed'){
+      timedTimeLeft=Math.max(0,timedTimeLeft-dt);
+      if(timedTimeLeft<=0){gameState='timedend';showTimedResults();return;}
+    }
     updateShip(dt);
     for(const p of preds){updatePredator(p,dt);if(gameState!=='playing') break;}
-    if(gameState==='playing') checkWin();
+    if(gameState==='playing'&&gameMode==='classic') checkWin();
     updateHUD();
   }
   drawGame();
@@ -264,6 +517,21 @@ function loop(ts){
   animFrame=requestAnimationFrame(loop);
 }
 
+// ── Timed results ──
+function showTimedResults(){
+  const pct=calcFillPct();
+  const isNew=timedScore>timedHighScore;
+  if(isNew){timedHighScore=timedScore;saveProgress();}
+  document.getElementById('tr-pct').textContent=pct+'%';
+  document.getElementById('tr-score').textContent=timedScore.toLocaleString();
+  const bestEl=document.getElementById('tr-best');
+  if(isNew) bestEl.textContent='★ New best: '+timedScore.toLocaleString();
+  else if(timedHighScore>0) bestEl.textContent='Best: '+timedHighScore.toLocaleString();
+  else bestEl.textContent='';
+  document.getElementById('timed-results').style.display='block';
+}
+
+// ── Spawn pickup ──
 function spawnPickup(){
   const candidates=[];
   for(let r=3;r<ROWS-3;r++) for(let c=3;c<COLS-3;c++){
@@ -277,6 +545,8 @@ function spawnPickup(){
   const pick=candidates[Math.floor(Math.random()*candidates.length)];
   fieldPickup={type:PU_TYPES[Math.floor(Math.random()*PU_TYPES.length)],c:pick.c,r:pick.r,life:PU_LIFETIME,pulse:0};
 }
+
+// ── Ship movement ──
 function updateShip(dt){
   if(wheelDir===null||wheelMag<0.12) return;
   const speed=7*(puActive.speed>0?2.0:1.0)*(0.35+0.65*wheelMag);
@@ -302,7 +572,10 @@ function moveShipTo(tc,tr){
   if(!trailSet.has(key)){trailSet.add(key);grid[tr][tc]=TRAIL;}
   ship.c=tc;ship.r=tr;ship.subC=tc;ship.subR=tr;
 }
+
+// ── Flood fill ──
 function doFloodFill(){
+  const cellsBefore=countFilled();
   const visited=new Uint8Array(COLS*ROWS);
   const queue=[];
   for(const p of preds){
@@ -332,9 +605,9 @@ function doFloodFill(){
   for(let r=1;r<ROWS-1;r++) for(let c=1;c<COLS-1;c++)
     if(grid[r][c]===EMPTY&&!visited[r*COLS+c]) grid[r][c]=FILLED;
   for(const key of trailSet){const r=Math.floor(key/COLS),c=key%COLS;grid[r][c]=FILLED;}
-  // Grant pickup if it was enclosed
+  // Grant pickup if enclosed
   if(fieldPickup&&grid[fieldPickup.r][fieldPickup.c]===FILLED) grantPickup(fieldPickup.type);
-  // Push enclosed predators out
+  // Push enclosed predators to open space
   for(const p of preds){
     const pc=Math.floor(p.x),pr=Math.floor(p.y);
     if(grid[pr][pc]===FILLED){
@@ -344,8 +617,21 @@ function doFloodFill(){
       }
     }
   }
-  // Bonus life if fill jumps 10% above target
-  if(!bonusLifeGranted){
+  const cellsAfter=countFilled();
+  const newCells=cellsAfter-cellsBefore;
+  // Timed mode scoring
+  if(gameMode==='timed'&&newCells>0){
+    const points=Math.round(newCells*timedCombo);
+    timedScore+=points;
+    timedConsecutiveFills++;
+    timedCombo=Math.min(4,1+(timedConsecutiveFills-1)*0.5);
+    const cf=document.getElementById('collect-flash');
+    const comboTag=timedCombo>1?' ('+timedCombo.toFixed(1).replace(/\.0$/,'')+'×)':'';
+    cf.textContent='+'+points+comboTag;
+    cf.style.opacity=1; collectFlashTimer=0.9;
+  }
+  // Classic: bonus life for filling 10% above target
+  if(gameMode==='classic'&&!bonusLifeGranted){
     const lvlB=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
     if(calcFillPct()>=Math.min(100,lvlB.target+10)){
       bonusLifeGranted=true; lives++;
@@ -355,6 +641,8 @@ function doFloodFill(){
   }
   updateHUD();
 }
+
+// ── Predator movement ──
 function updatePredator(p,dt){
   if(puActive.freeze>0) return;
   const R=0.42;
@@ -387,7 +675,22 @@ function updatePredator(p,dt){
     }
   }
 }
+
+// ── Lose life ──
 function loseLife(){
+  if(gameMode==='timed'){
+    // Respawn immediately; lose combo
+    for(const key of trailSet){const r=Math.floor(key/COLS),c=key%COLS;grid[r][c]=EMPTY;}
+    trailSet.clear();
+    puActive={speed:0,freeze:0,shield:0};
+    ship.c=Math.floor(COLS/2);ship.r=ROWS-1;ship.subC=ship.c;ship.subR=ship.r;
+    flashTimer=1.0;
+    timedCombo=1; timedConsecutiveFills=0;
+    const cf=document.getElementById('collect-flash');
+    cf.textContent='💀 combo reset'; cf.style.opacity=1; collectFlashTimer=1.2;
+    updateHUD();
+    return;
+  }
   lives--;
   for(const key of trailSet){const r=Math.floor(key/COLS),c=key%COLS;grid[r][c]=EMPTY;}
   trailSet.clear();
@@ -395,33 +698,53 @@ function loseLife(){
   ship.c=Math.floor(COLS/2);ship.r=ROWS-1;ship.subC=ship.c;ship.subR=ship.r;
   flashTimer=1.5;
   updateHUD();
-  if(lives<=0){gameState='dead';showMsg('Game Over','','Final fill: '+calcFillPct()+'%<br>Reached level '+currentLevel,'Play Again',true);}
+  if(lives<=0){
+    gameState='dead';
+    showMsg('Game Over','','Final fill: '+calcFillPct()+'%<br>Reached level '+currentLevel,
+      'Main Menu','showMainMenu');
+  }
 }
+
+// ── Level clear ──
 function checkWin(){
   const lvl=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
   if(calcFillPct()>=lvl.target){
     gameState='levelclear';
+    if(currentLevel>highestLevel){highestLevel=currentLevel;saveProgress();}
     if(currentLevel>=LEVELS.length){
-      showMsg('You Win!','All levels cleared!','Final fill: '+calcFillPct()+'%','Play Again',true);
-    } else {
-      const flash=document.getElementById('level-flash');
-      flash.textContent='Level '+currentLevel+' Clear!';
-      flash.style.opacity=1;
-      setTimeout(()=>{
-        flash.style.opacity=0;
-        const lvlBonus=currentLevel%5===0;
-        if(lvlBonus){lives++;updateHUD();}
-        currentLevel++;
-        const next=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
-        showMsg('Level '+currentLevel,
-          next.predators+' predator'+(next.predators>1?'s':'')+' · faster',
-          'Claim '+next.target+'% of the field.'+(lvlBonus?'<br>🎉 +1 Bonus Life!':''),'Go',false);
-      },1800);
+      showMsg('You Win!','All levels cleared!','Final fill: '+calcFillPct()+'%','Main Menu','showMainMenu');
+      return;
     }
+    const flash=document.getElementById('level-flash');
+    flash.textContent='Level '+currentLevel+' Clear!';
+    flash.style.opacity=1;
+    setTimeout(()=>{
+      flash.style.opacity=0;
+      const lvlBonus=currentLevel%5===0;
+      if(lvlBonus){lives++;updateHUD();}
+      const nextLevel=currentLevel+1;
+      // Gate: if next level needs premium and player doesn't have it
+      if(nextLevel>FREE_LEVELS&&!isPremium){
+        document.getElementById('premium-gate').style.display='block';
+        return;
+      }
+      currentLevel=nextLevel;
+      const next=LEVELS[Math.min(currentLevel-1,LEVELS.length-1)];
+      const isMaster=currentLevel===9;
+      showMsg(
+        'Level '+currentLevel+(isMaster?' — Master':''),
+        next.predators+' predator'+(next.predators>1?'s':'')+' · faster',
+        'Claim '+next.target+'% of the field.'+(lvlBonus?'<br>🎉 +1 Bonus Life!':''),
+        'Go',
+        'startLevel'
+      );
+    },1800);
   }
 }
-function showMsg(title,sub,body,btn,resetGame){
-  if(resetGame){lives=3;currentLevel=1;}
+
+// ── Show message card ──
+function showMsg(title,sub,body,btn,action){
+  msgAction=action||'startLevel';
   document.getElementById('msg-title').textContent=title;
   document.getElementById('msg-sub').textContent=sub;
   document.getElementById('msg-body').innerHTML=body;
@@ -429,6 +752,7 @@ function showMsg(title,sub,body,btn,resetGame){
   document.getElementById('msg').style.display='block';
 }
 
+// ── Rendering ──
 function drawGame(){
   ctx.fillStyle='#0a0a0f';ctx.fillRect(0,0,CW,CH);
   if(puActive.shield>0){ctx.fillStyle='rgba(93,202,165,0.04)';ctx.fillRect(0,0,CW,CH);}
@@ -525,6 +849,8 @@ function drawWheel(){
     wctx.beginPath();wctx.arc(cx+d*Math.cos(a),cy+d*Math.sin(a),11,0,Math.PI*2);wctx.fillStyle='#1D9E75';wctx.fill();
   }
 }
+
+// ── Input ──
 function getInput(clientX,clientY){
   const rect=wc.getBoundingClientRect(),scale=wc.width/rect.width;
   const dx=(clientX-rect.left)*scale-140,dy=(clientY-rect.top)*scale-140;
@@ -545,7 +871,9 @@ wc.addEventListener('mousemove',e=>{if(e.buttons)onM(e);});
 wc.addEventListener('mouseup',onE);
 wc.addEventListener('mouseleave',onE);
 
-newGame(); initGrid(); drawGame(); drawWheel();
+// ── Boot ──
+initGrid(); drawGame(); drawWheel();
+showMainMenu();
 </script>
 </body>
 </html>
